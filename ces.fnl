@@ -1,6 +1,8 @@
-(local unpack (or unpack table.unpack))
+(local unpack (or table.unpack))
 
-;; (local inspect fennelview)
+(local fennelview (require :fennel.view))
+
+(local inspect fennelview)
 
 ;; tail recursive push which takes a specific index, allowing it to
 ;; push without counting table elements or allocating tables (to
@@ -18,10 +20,10 @@
 
 ;; this slice only supports going forward, and uses beginning + length
 ;; instead of beginning + end
-(fn slice [tab beginning length]
+(fn slice [tab beginning len]
   (local ret [])
   (local real-beginning (- beginning 1))
-  (for [i 1 length]
+  (for [i 1 len]
     (tset ret i (. tab (+ real-beginning i))))
   ret)
 
@@ -46,13 +48,13 @@
 (fn component-store/count [store]
   (math.floor (/ (component-store/pool-size store) store.pool-arity)))
 
-;; (fn component-store/view [store]
-;;   (.. "#<component-store"
-;;       " :name " store.name
-;;       " :params " (inspect store.params)
-;;       " :count " (component-store/count store)
-;;       ;; " :real-count " (/ (# store.pool) store.pool-arity)
-;;       ">"))
+(fn component-store/view [store]
+   (.. "#<component-store"
+       " :name " store.name
+       " :params " (inspect store.params)
+       " :count " (component-store/count store)
+       " :real-count " (/ (# store.pool) store.pool-arity)
+       ">"))
 
 (fn component-store/create [name params]
   ;; params should be an array of argument labels
@@ -65,8 +67,8 @@
      :pool-arity pool-arity
      :pool-size 0
      :pool []
-     :__inspect__ component-store/view
-     }))
+     :__inspect__ component-store/view}))
+     
 
 (fn world/create [component-specs]
   (let [genid {:component (get-genid)
@@ -255,8 +257,8 @@
             (tset pool (+ i j) (. pool (+ copy-from-i j))))
           ;; set that component's entity ID to nil
           (tset pool copy-from-i nil)))
-      (set i (+ i pool-arity))))
-  )
+      (set i (+ i pool-arity)))))
+  
 
 (fn world/run-updates [world components-updates]
   (each [component-name component-updates (pairs components-updates)]
@@ -315,8 +317,8 @@
               this-id (component-store/get-id-at store index)]
           (tset ids i this-id)
           (when (not entity-id) (set entity-id this-id))
-          (when (~= this-id entity-id) (set all-identical false))
-          ))
+          (when (~= this-id entity-id) (set all-identical false))))
+          
 
       (if
        ;; When all IDs at the selected indices are identical, retrieve
@@ -363,8 +365,8 @@
       ;; stop looping if we've finished any of the stores
       (for [i 1 num-stores]
         (when (and (not done) (>= (. indices i) (. end-indices i)))
-          (set done true)))
-      )))
+          (set done true))))))
+      
 
 (fn world/call-on-common-components [world component-names fun extra-arg]
   (component-store/call-on-common-components
@@ -384,8 +386,8 @@
          :run-updates world/run-updates
          :run-creations world/run-creations
          :empty world/empty
-         :call-on-common-components world/call-on-common-components
-         }
+         :call-on-common-components world/call-on-common-components}
+         
  :__internal__
  {:component-store {:create component-store/create
                     :pool-size component-store/pool-size
@@ -398,5 +400,9 @@
                     ;; :common-entities-3 component-store/common-entities-3
                     :call-on-common-components component-store/call-on-common-components
                     :get-at component-store/get-at
-                    :last-component-pool-position component-store/last-component-pool-position
-                    }}}
+                    :last-component-pool-position component-store/last-component-pool-position}}}
+                    
+
+(comment 
+  (. (world/create {:componentStoreName {:arg1 :arg2}}) :component-stores))
+
