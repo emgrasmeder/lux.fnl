@@ -39,6 +39,13 @@ acts on entities given according to certain conditions. i really gotta learn how
 
 The entry point to the ECS is `world/create`. You can pass it an argument like `{:componentStoreName {:arg1 :arg2}}` and it won't yell at you, that's all I know so far
 
+## Testing
+
+If you've installed the deps.fnl binary, you can run
+```
+deps --profiles dev tasks/run-tests
+```
+to run the tests. If you want to add more tests, you need to add them to the list in the `run-tests` file.
 
 ##### Disclaimer
 I don't know how to make games, how to code in fennel, and how to build an ECS. I'm gratefully forking this repository from Benaiah so that I can add documentation for my own reference, and edit things in an attempt to understand them better.
