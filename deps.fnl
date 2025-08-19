@@ -1,4 +1,5 @@
-{:paths {:fennel ["src/?/init.fnl"]}
+{:paths 
+ {:fennel ["src/?.fnl" "src/?/init.fnl"]}
  :profiles 
  {:dev 
   {:deps {"https://gitlab.com/andreyorst/fennel-test"
