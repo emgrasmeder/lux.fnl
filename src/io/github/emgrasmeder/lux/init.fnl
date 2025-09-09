@@ -4,6 +4,8 @@
 
 (local inspect fennelview)
 
+(fn hello [] 123)
+
 ;; tail recursive push which takes a specific index, allowing it to
 ;; push without counting table elements or allocating tables (to
 ;; iterate over varargs)
@@ -376,7 +378,8 @@
          (push stores (. world.component-stores (. component-names i))))
        stores)))
 
-{:world {:create world/create
+{
+ :world {:create world/create
          :create-entity world/create-entity
          :get-by-id world/get-by-id
          :get-table-by-id world/get-table-by-id
@@ -401,8 +404,3 @@
                     :call-on-common-components component-store/call-on-common-components
                     :get-at component-store/get-at
                     :last-component-pool-position component-store/last-component-pool-position}}}
-                    
-
-(comment 
-  (. (world/create {:componentStoreName {:arg1 :arg2}}) :component-stores))
-

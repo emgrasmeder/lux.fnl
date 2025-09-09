@@ -1,9 +1,11 @@
 (import-macros
- {: deftest : assert-eq}
+ {: deftest : assert-eq : testing}
  :io.gitlab.andreyorst.fennel-test)
 
+(local {: world} (require :io.github.emgrasmeder.lux))
+
 (deftest table-insert-test
-  ;; example of a failing test
-  (assert-eq
-   [1 2 3]
-   [1 2 3]))
+  (testing "creator of worlds"
+    (assert-eq (. (world:create
+                   {:componentStoreName {:arg1 :arg2}}) :component-stores) 123)))
+           
