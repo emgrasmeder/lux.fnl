@@ -1,6 +1,8 @@
 # Lux
 A **L**öve **ECS**
 
+🚧This is mostly a personal playground for now 👷‍♀️
+
 ## Installation
 
 Add this to your `deps.fnl` file:
