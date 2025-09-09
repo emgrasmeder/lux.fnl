@@ -1,4 +1,3 @@
-;;; table-tests.fnl
 (import-macros
  {: deftest : assert-eq}
  :io.gitlab.andreyorst.fennel-test)
